@@ -17,7 +17,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          install.packages(c("rlang", "testthat", "dplyr", "tidyr", "ggplot2", "shiny"),
+          install.packages(c("rlang", "testthat", "dplyr", "tidyr", "ggplot2", "shiny", "officer"),
                            repos = "https://cloud.r-project.org")
         shell: Rscript {0}
 
