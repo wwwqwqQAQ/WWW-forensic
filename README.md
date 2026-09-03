@@ -5,6 +5,10 @@
 > Personal data forensics in R: Benford's law tests, robust (MAD-based) anomaly
 > detection, and weekly structure checks for anything you record about your life.
 
+## 效果预览
+
+![wwwforensic 效果图](preview.png)
+
 ## 为什么做
 
 - 你的旧工具都在"采集/展示"数据;这个项目换一层:**检验数据本身的统计行为**
