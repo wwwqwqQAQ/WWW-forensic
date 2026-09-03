@@ -37,3 +37,22 @@ test_that("import_stream auto-detects date and value columns", {
 test_that("importers fail loudly on unreadable file", {
   expect_error(import_bills(tempfile()), "could not read")
 })
+
+test_that("import_bills skips certificate preamble with legal text", {
+  p <- tempfile(fileext = ".csv")
+  writeLines(c(
+    "------------------------------------------------------------------------------------",
+    "支出信息:",
+    "起始时间:[2025-09-04 00:00:00]",
+    "共2笔记录",
+    "特别提示:本回单金额与实际交易不符时以实际为准",   # 含"金额"但不是表头
+    "",
+    "交易号,交易时间,交易对方,商品名称,金额(元),收/支",
+    "T1,2025-09-04 08:00:00,某某店,早餐,12.50,支出",
+    "T2,2025-09-05 09:00:00,某某店,午餐,25.00,支出"
+  ), p, useBytes = TRUE)
+  d <- import_bills(p)
+  expect_equal(nrow(d), 2)
+  expect_equal(sum(d$amount), 37.5)
+  expect_equal(format(min(d$date)), "2025-09-04")
+})

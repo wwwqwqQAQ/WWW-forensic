@@ -1,22 +1,41 @@
 # Real-world data importers ----------------------------------------------
 
-#' Read a CSV, trying a few common encodings
-.read_csv_lenient <- function(path, encoding = NULL) {
-  encodings <- if (!is.null(encoding)) encoding else c("UTF-8-BOM", "UTF-8", "GB18030", "")
-  last_err <- NULL
+# Read a CSV robustly: try several encodings, optionally locate the real
+# header row (bills ship with a certificate preamble whose legal text may
+# mention "金额" too, so header detection requires ALL header_patterns to
+# match), and require a header pattern so mojibake reads are rejected.
+.read_csv_lenient <- function(path, encoding = NULL, header_patterns = NULL,
+                              required_pattern = NULL) {
+  encodings <- if (!is.null(encoding)) encoding else c("UTF-8-BOM", "UTF-8", "CP936", "GBK", "GB18030", "")
+  tried <- character()
   for (enc in encodings) {
-    d <- tryCatch(
+    ok <- tryCatch({
+      skip <- 0L
+      if (length(header_patterns)) {
+        enc_lines <- sub("-BOM$", "", enc)
+        lns <- suppressWarnings(
+          tryCatch(readLines(path, warn = FALSE, encoding = enc_lines),
+                   error = function(e) character())
+        )
+        if (length(lns)) {
+          hits <- Reduce(intersect, lapply(header_patterns, function(p) grep(p, lns)))
+          if (length(hits)) skip <- as.integer(hits[1] - 1)
+        }
+      }
       suppressWarnings(
         utils::read.csv(path, stringsAsFactors = FALSE, fileEncoding = enc,
-                        check.names = FALSE)
-      ),
-      error = function(e) NULL
-    )
-    if (!is.null(d)) return(d)
-    last_err <- enc
+                        skip = skip, check.names = FALSE)
+      )
+    }, error = function(e) NULL)
+    tried <- c(tried, enc)
+    if (is.null(ok)) next
+    if (!is.null(required_pattern) && !any(grepl(required_pattern, names(ok)))) {
+      next
+    }
+    return(ok)
   }
   stop("could not read '", path, "' (tried encodings: ",
-       paste(encodings, collapse = ", "), ")")
+       paste(tried, collapse = ", "), ")")
 }
 
 .pick_col <- function(nms, patterns) {
@@ -45,7 +64,8 @@
 import_bills <- function(path, source = c("auto", "alipay", "wechat"),
                          spend_only = TRUE) {
   source <- match.arg(source)
-  d <- .read_csv_lenient(path)
+  d <- .read_csv_lenient(path, header_patterns = c("金额", "时间|收/支|收支"),
+                         required_pattern = "金额")
   nms <- names(d)
   i_amount <- .pick_col(nms, c("金额"))
   i_date   <- .pick_col(nms, c("交易时间", "交易创建时间", "付款时间", "时间", "日期"))
@@ -84,7 +104,8 @@ import_bills <- function(path, source = c("auto", "alipay", "wechat"),
 #' @return data.frame with columns \code{date} and \code{value}
 #' @export
 import_stream <- function(path, date_col = NULL, value_col = NULL) {
-  d <- .read_csv_lenient(path)
+  d <- .read_csv_lenient(path, header_patterns = "日期|时间|date",
+                         required_pattern = "日期|时间|date")
   nms <- names(d)
   if (is.null(date_col)) {
     j <- .pick_col(nms, c("时间", "日期", "date"))
