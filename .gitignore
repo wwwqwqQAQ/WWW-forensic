@@ -17,3 +17,6 @@ Meta/
 data-raw/
 *.csv.bak
 *_账单*.csv
+
+# generated reports
+report/
