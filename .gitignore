@@ -8,8 +8,8 @@
 .Renviron
 
 # docs/pkgs
-selfcheck_*.tar.gz
-selfcheck_*.tgz
+wwwforensic_*.tar.gz
+wwwforensic_*.tgz
 doc/
 Meta/
 

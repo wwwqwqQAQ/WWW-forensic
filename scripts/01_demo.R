@@ -1,4 +1,4 @@
-# selfcheck 首秀 demo(不依赖真实个人数据,用合成数据演示取证引擎)
+# wwwforensic 首秀 demo(不依赖真实个人数据,用合成数据演示取证引擎)
 # 运行: Rscript scripts/01_demo.R
 
 # 用 source 直接加载源码(等价于 devtools::load_all,无需先安装包)
@@ -6,7 +6,7 @@ for (f in list.files("R", pattern = "\\.R$", full.names = TRUE)) source(f)
 
 set.seed(42)
 cat("==============================================\n")
-cat("selfcheck —— 个人数据数字取证 · 演示\n")
+cat("wwwforensic —— 个人数据数字取证 · 演示\n")
 cat("==============================================\n\n")
 
 # ---- 演示 1:Benford 首位数字检验 ------------------------------------

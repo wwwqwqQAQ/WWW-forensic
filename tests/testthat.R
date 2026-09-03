@@ -1,4 +1,4 @@
 library(testthat)
-library(selfcheck)
+library(wwwforensic)
 
-test_check("selfcheck")
+test_check("wwwforensic")

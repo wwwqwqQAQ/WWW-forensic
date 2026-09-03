@@ -1,4 +1,4 @@
-Package: selfcheck
+Package: wwwforensic
 Type: Package
 Title: Personal Data Forensics: Benford and Robust Anomaly Checks
 Version: 0.0.0.9000

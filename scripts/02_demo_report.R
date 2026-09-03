@@ -1,6 +1,6 @@
-# selfcheck 演示 2:用合成数据生成真实周报(无需真实个人数据)
+# wwwforensic 演示 2:用合成数据生成真实周报(无需真实个人数据)
 # 运行: Rscript scripts/02_demo_report.R
-library(selfcheck)
+library(wwwforensic)
 
 set.seed(7)
 days <- seq(as.Date("2026-01-01"), by = "day", length.out = 120)
