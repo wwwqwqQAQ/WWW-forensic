@@ -1,0 +1,19 @@
+# R
+.Rproj.user/
+.Rhistory
+.RData
+.Ruserdata
+*.Rcheck/
+.Rproj.user
+.Renviron
+
+# docs/pkgs
+selfcheck_*.tar.gz
+selfcheck_*.tgz
+doc/
+Meta/
+
+# personal data (never commit real exports!)
+data-raw/
+*.csv.bak
+*_账单*.csv

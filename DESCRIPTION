@@ -1,0 +1,18 @@
+Package: selfcheck
+Type: Package
+Title: Personal Data Forensics: Benford and Robust Anomaly Checks
+Version: 0.0.0.9000
+Authors@R: person("chen", email = "wwwqwqQAQ@users.noreply.github.com", role = c("aut", "cre"))
+Description: A "digital forensics" toolbox for your own life data. It checks
+    whether recorded numbers (expense amounts, sleep minutes, workout counts,
+    anything a human types or an app logs) behave like naturally occurring
+    numbers via Benford's law tests, flags outliers with robust statistics
+    (MAD-based z-scores), and detects anomalous weeks in any date-value stream.
+    Analysis core has zero hard dependencies; tidyverse helpers are optional.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Depends: R (>= 4.1.0)
+Imports: stats, utils
+Suggests: dplyr, tidyr, ggplot2, testthat (>= 3.0.0)
+Config/testthat/edition: 3
+RoxygenNote: 7.3.2
