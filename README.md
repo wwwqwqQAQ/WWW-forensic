@@ -18,7 +18,7 @@
 - [x] 稳健异常检测:`mad_z` / `detect_anomalies`(支持分组基线)/ `weekly_totals` / `stream_summary`
 - [x] 真实数据适配器:`import_bills`(支付宝/微信账单自动识别列)、`import_stream`(睡眠/运动等通用流)
 - [x] Shiny 交互体检台 `run_dashboard()`
-- [x] 每周报告 `render_weekly()`(自包含 HTML+PNG,无需 pandoc)
+- [x] 报表 `render_report_docx()`(**Word .docx 主交付**,officer 直出、无需 pandoc)与 `render_weekly()`(HTML 备用)
 - [ ] 案例站(vignette,用真实脱敏数据演示)+ 发布 GitHub
 
 ## 快速上手(源码直跑,无需安装)
@@ -37,8 +37,8 @@ benford_test(bills$amount)
 wk <- weekly_totals(bills, "date", "amount")
 detect_anomalies(wk, "total")
 
-# 4) 出周报(自包含 HTML,report/index.html)
-render_weekly(list(支出 = bills), value = "amount")
+# 4) 出报表(Word .docx,主交付)
+render_report_docx(list(支出 = bills), value = "amount", filename = "周报.docx")
 
 # 5) 交互体检台
 run_dashboard(list(支出 = bills, 睡眠 = sleep_stream))

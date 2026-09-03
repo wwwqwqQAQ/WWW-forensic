@@ -65,11 +65,13 @@ run_dashboard <- function(streams, value = "amount", date = "date",
     output$weekly <- shiny::renderPlot({
       d <- data()
       ggplot2::ggplot(d, ggplot2::aes(.data$week_start, .data$total)) +
-        ggplot2::geom_line(ggplot2::aes(group = 1), colour = "#64748b") +
-        ggplot2::geom_point(ggplot2::aes(colour = .data$.anomaly), size = 2.5) +
+        ggplot2::geom_line(ggplot2::aes(group = 1), colour = "#0284c7", linewidth = 0.8) +
+        ggplot2::geom_point(ggplot2::aes(colour = .data$.anomaly), size = 3) +
         ggplot2::scale_colour_manual(values = c("FALSE" = "#38bdf8", "TRUE" = "#ef4444"),
-                                     name = "异常") +
-        ggplot2::labs(x = NULL, y = "周合计") + ggplot2::theme_minimal(base_size = 13)
+                                     name = "异常周", labels = c("FALSE" = "正常", "TRUE" = "异常")) +
+        ggplot2::labs(x = NULL, y = "周合计") +
+        ggplot2::theme_minimal(base_size = 13, base_family = .plot_family()) +
+        ggplot2::theme(panel.grid.minor = ggplot2::element_blank())
     })
     output$anomalies <- shiny::renderTable({
       d <- data()
@@ -95,7 +97,8 @@ run_dashboard <- function(streams, value = "amount", date = "date",
                            colour = "#0f172a") +
         ggplot2::geom_point(ggplot2::aes(y = .data$expected)) +
         ggplot2::labs(x = "首位数字", y = "比例") +
-        ggplot2::theme_minimal(base_size = 13)
+        ggplot2::theme_minimal(base_size = 13, base_family = .plot_family()) +
+        ggplot2::theme(panel.grid.minor = ggplot2::element_blank())
     })
   }
 

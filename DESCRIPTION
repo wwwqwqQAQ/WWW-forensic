@@ -13,6 +13,6 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 4.1.0)
 Imports: stats, utils, rlang
-Suggests: dplyr, tidyr, ggplot2, shiny, testthat (>= 3.0.0)
+Suggests: dplyr, tidyr, ggplot2, shiny, officer, testthat (>= 3.0.0)
 Config/testthat/edition: 3
 RoxygenNote: 7.3.2

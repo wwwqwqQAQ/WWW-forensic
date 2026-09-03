@@ -27,3 +27,13 @@ test_that("run_dashboard returns an app object when launch = FALSE", {
   app <- run_dashboard(list(bills = s), launch = FALSE)
   expect_s3_class(app, "shiny.appobj")
 })
+
+test_that("render_report_docx writes a real docx", {
+  skip_if_not_installed("officer")
+  s <- make_stream(90)
+  s$amount[60] <- 900
+  f <- render_report_docx(list(bills = s), out_dir = tempfile("docx"),
+                          filename = "test.docx")
+  expect_true(file.exists(f))
+  expect_gt(file.size(f), 1000)   # a real zip-based docx, not an empty stub
+})

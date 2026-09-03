@@ -1,5 +1,11 @@
 # Internal helpers ---------------------------------------------------------
 
+# A CJK-capable font family for plots: ggplot's default font renders Chinese
+# as boxes on Windows, so force Microsoft YaHei there.
+.plot_family <- function() {
+  if (.Platform$OS.type == "windows") "Microsoft YaHei" else "sans"
+}
+
 # Resolve the actual column name for one stream: explicit column first (scalar
 # or per-stream named vector), then a sensible default ("value"/"date").
 .resolve_col <- function(s, nm, col, default = "value") {

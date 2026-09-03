@@ -34,6 +34,7 @@ cat("\n=== 月度支出 ===\n")
 print(m, row.names = FALSE)
 
 saveRDS(bills, "data-raw/bills.rds")
-render_weekly(list("支付宝支出" = bills), value = "amount", out_dir = "report")
-cat("\n周报已生成: report/index.html\n")
+docx <- render_report_docx(list("支付宝支出" = bills), value = "amount",
+                           out_dir = "report", filename = "周报.docx")
+cat("\nWord 报表已生成:", normalizePath(docx), "\n")
 cat("交互体检台: run_dashboard(list(支付宝支出 = readRDS('data-raw/bills.rds')), value = 'amount')\n")
